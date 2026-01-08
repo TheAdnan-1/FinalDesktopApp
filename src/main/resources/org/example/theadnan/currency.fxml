@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefWidth="800" prefHeight="500"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.theadnan.CurrencyController">
+
+    <Text text="Currency Converter"
+          layoutX="300" layoutY="40"
+          style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <Label text="Amount"
+           layoutX="200" layoutY="120"/>
+    <TextField fx:id="amountField"
+               layoutX="300" layoutY="115"
+               prefWidth="200"/>
+
+    <Label text="From"
+           layoutX="200" layoutY="170"/>
+    <ComboBox fx:id="fromCurrency"
+              layoutX="300" layoutY="165"
+              prefWidth="200"/>
+
+    <Label text="To"
+           layoutX="200" layoutY="220"/>
+    <ComboBox fx:id="toCurrency"
+              layoutX="300" layoutY="215"
+              prefWidth="200"/>
+
+    <Button text="Convert"
+            layoutX="330" layoutY="280"
+            prefWidth="140"
+            onAction="#convertCurrency"/>
+
+    <Label fx:id="resultLabel"
+           layoutX="200" layoutY="340"
+           style="-fx-font-size: 16px;"/>
+
+    <Button text="Back"
+            layoutX="20" layoutY="20"
+            onAction="#goBack"/>
+
+</AnchorPane>
