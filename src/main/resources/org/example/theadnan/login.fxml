@@ -6,9 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<AnchorPane prefWidth="600" prefHeight="400"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="org.example.theadnan.LoginController">
+
+
+    <TextField fx:id="email" layoutX="200" layoutY="120" promptText="Email"/>
+    <PasswordField fx:id="password" layoutX="200" layoutY="170" promptText="Password"/>
+
+    <Button text="Login" layoutX="250" layoutY="230"
+            onAction="#loginUser"/>
+
+    <Label fx:id="status" layoutX="200" layoutY="280"/>
 
 </AnchorPane>
+
