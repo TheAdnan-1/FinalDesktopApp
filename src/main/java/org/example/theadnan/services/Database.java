@@ -12,18 +12,19 @@ public class Database {
         try (Connection conn = DriverManager.getConnection(URL);
              Statement stmt = conn.createStatement()) {
 
-            String sql = """
-                CREATE TABLE IF NOT EXISTS users (
-                    email TEXT PRIMARY KEY,
-                    name TEXT NOT NULL,
-                    age INTEGER,
-                    profession TEXT,
-                    hobby TEXT,
-                    password TEXT NOT NULL
-                );
-                """;
+            String notesSql = """
+    CREATE TABLE IF NOT EXISTS notes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_email TEXT NOT NULL,
+        title TEXT NOT NULL,
+        content TEXT NOT NULL,
+        created_at TEXT,
+        FOREIGN KEY(user_email) REFERENCES users(email)
+    );
+    """;
 
-            stmt.execute(sql);
+            stmt.execute(notesSql);
+
 
         } catch (Exception e) {
             e.printStackTrace();
