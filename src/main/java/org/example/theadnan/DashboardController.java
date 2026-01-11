@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.example.theadnan.services.AuthService;
-import org.example.theadnan.NotesController;
 
 import java.sql.ResultSet;
 
@@ -15,10 +14,9 @@ public class DashboardController {
     @FXML
     private Label info;
 
-    // store logged-in user's email globally for this session
     private String currentUserEmail;
 
-    // ---------- LOAD USER INFO ----------
+    // called after login
     public void loadUser(String email) {
         this.currentUserEmail = email;
 
@@ -39,7 +37,6 @@ public class DashboardController {
         }
     }
 
-    // ---------- OPEN NOTES SCENE ----------
     @FXML
     public void openNotes() {
         try {

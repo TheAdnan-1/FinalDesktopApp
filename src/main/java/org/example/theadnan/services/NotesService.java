@@ -1,80 +1,49 @@
 package org.example.theadnan.services;
 
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class NotesService {
 
-    // ---------- CREATE ----------
-    public static void addNote(String email, String title, String content) throws Exception {
-        String sql = """
-            INSERT INTO notes(user_email, title, content, created_at)
-            VALUES(?,?,?,?)
-            """;
-
-        try (Connection conn = Database.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, email);
-            ps.setString(2, title);
-            ps.setString(3, content);
-            ps.setString(4, LocalDateTime.now().toString());
-            ps.executeUpdate();
-        }
-    }
-
-    // ---------- READ ----------
-    public static List<String> getNotesTitles(String email) throws Exception {
-        List<String> notes = new ArrayList<>();
-
-        String sql = "SELECT id, title FROM notes WHERE user_email = ?";
-
-        try (Connection conn = Database.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                notes.add(rs.getInt("id") + " - " + rs.getString("title"));
-            }
-        }
-        return notes;
-    }
-
-    // ---------- READ ONE ----------
-    public static ResultSet getNoteById(int id) throws Exception {
+    public static ResultSet getNotes(String email) throws Exception {
         Connection conn = Database.connect();
-        PreparedStatement ps =
-                conn.prepareStatement("SELECT * FROM notes WHERE id = ?");
-        ps.setInt(1, id);
+        PreparedStatement ps = conn.prepareStatement(
+                "SELECT title FROM notes WHERE user_email = ?"
+        );
+        ps.setString(1, email);
         return ps.executeQuery();
     }
 
-    // ---------- UPDATE ----------
-    public static void updateNote(int id, String title, String content) throws Exception {
-        String sql = "UPDATE notes SET title = ?, content = ? WHERE id = ?";
+    public static ResultSet getNote(String email, String title) throws Exception {
+        Connection conn = Database.connect();
+        PreparedStatement ps = conn.prepareStatement(
+                "SELECT content FROM notes WHERE user_email = ? AND title = ?"
+        );
+        ps.setString(1, email);
+        ps.setString(2, title);
+        return ps.executeQuery();
+    }
 
+    public static void saveNote(String email, String title, String content) throws Exception {
         try (Connection conn = Database.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, title);
-            ps.setString(2, content);
-            ps.setInt(3, id);
+             PreparedStatement ps = conn.prepareStatement(
+                     "INSERT OR REPLACE INTO notes (user_email, title, content) VALUES (?, ?, ?)"
+             )) {
+            ps.setString(1, email);
+            ps.setString(2, title);
+            ps.setString(3, content);
             ps.executeUpdate();
         }
     }
 
-    // ---------- DELETE ----------
-    public static void deleteNote(int id) throws Exception {
-        String sql = "DELETE FROM notes WHERE id = ?";
-
+    public static void deleteNote(String email, String title) throws Exception {
         try (Connection conn = Database.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, id);
+             PreparedStatement ps = conn.prepareStatement(
+                     "DELETE FROM notes WHERE user_email = ? AND title = ?"
+             )) {
+            ps.setString(1, email);
+            ps.setString(2, title);
             ps.executeUpdate();
         }
     }

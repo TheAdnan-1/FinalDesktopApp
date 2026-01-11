@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefWidth="900" prefHeight="600"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.theadnan.NotesController">
+
+
+    <ListView fx:id="notesList"
+              layoutX="30" layoutY="70"
+              prefWidth="250" prefHeight="450"/>
+
+    <TextField fx:id="titleField"
+               layoutX="320" layoutY="80"
+               prefWidth="520"
+               promptText="Note Title"/>
+
+    <TextArea fx:id="contentArea"
+              layoutX="320" layoutY="120"
+              prefWidth="520" prefHeight="300"
+              promptText="Write your note here..."/>
+
+    <Button text="Save New"
+            layoutX="320" layoutY="450"
+            onAction="#saveNote"/>
+
+
+    <Button text="Delete"
+            layoutX="520" layoutY="450"
+            onAction="#deleteNote"/>
+
+    <Button text="Back"
+            layoutX="30" layoutY="30"
+            onAction="#goBack"/>
+
+</AnchorPane>
+

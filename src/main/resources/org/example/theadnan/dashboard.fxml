@@ -11,6 +11,9 @@
             fx:controller="org.example.theadnan.DashboardController">
     <Label fx:id="info" layoutX="200" layoutY="120"
            style="-fx-font-size: 16px;"/>
+    <Button layoutX="350" layoutY="300"
+            text="My Notes"
+            onAction="#openNotes"/>
 
 </AnchorPane>
 

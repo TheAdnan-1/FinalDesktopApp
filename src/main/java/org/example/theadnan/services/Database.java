@@ -13,15 +13,16 @@ public class Database {
              Statement stmt = conn.createStatement()) {
 
             String notesSql = """
-    CREATE TABLE IF NOT EXISTS notes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_email TEXT NOT NULL,
-        title TEXT NOT NULL,
-        content TEXT NOT NULL,
-        created_at TEXT,
-        FOREIGN KEY(user_email) REFERENCES users(email)
-    );
-    """;
+CREATE TABLE IF NOT EXISTS notes (
+    user_email TEXT NOT NULL,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TEXT,
+    PRIMARY KEY (user_email, title),
+    FOREIGN KEY(user_email) REFERENCES users(email)
+);
+""";
+
 
             stmt.execute(notesSql);
 
