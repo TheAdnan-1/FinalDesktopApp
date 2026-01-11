@@ -11,7 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.theadnan.services.NotesService;
 
-import java.sql.ResultSet;
+import java.util.List;
+import java.util.Optional;
 
 public class NotesController {
 
@@ -38,10 +39,9 @@ public class NotesController {
     private void loadNotes() {
         notes.clear();
 
-        try (ResultSet rs = NotesService.getNotes(userEmail)) {
-            while (rs.next()) {
-                notes.add(rs.getString("title"));
-            }
+        try {
+            List<String> titles = NotesService.getNotes(userEmail);
+            notes.addAll(titles);
             notesList.setItems(notes);
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,10 +60,14 @@ public class NotesController {
     }
 
     private void loadNoteContent(String title) {
-        try (ResultSet rs = NotesService.getNote(userEmail, title)) {
-            if (rs.next()) {
+        try {
+            Optional<String> contentOpt = NotesService.getNoteContent(userEmail, title);
+            if (contentOpt.isPresent()) {
                 titleField.setText(title);
-                contentArea.setText(rs.getString("content"));
+                contentArea.setText(contentOpt.get());
+            } else {
+                titleField.setText(title);
+                contentArea.clear();
             }
         } catch (Exception e) {
             e.printStackTrace();

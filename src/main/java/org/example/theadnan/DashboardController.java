@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.example.theadnan.services.AuthService;
 
-import java.sql.ResultSet;
+import java.util.Optional;
 
 public class DashboardController {
 
@@ -21,15 +21,19 @@ public class DashboardController {
         this.currentUserEmail = email;
 
         try {
-            ResultSet rs = AuthService.getUser(email);
-
-            info.setText(
-                    "Name: " + rs.getString("name") + "\n" +
-                            "Email: " + rs.getString("email") + "\n" +
-                            "Age: " + rs.getInt("age") + "\n" +
-                            "Profession: " + rs.getString("profession") + "\n" +
-                            "Hobby: " + rs.getString("hobby")
-            );
+            Optional<User> opt = AuthService.getUser(email);
+            if (opt.isPresent()) {
+                User u = opt.get();
+                info.setText(
+                        "Name: " + u.getName() + "\n" +
+                                "Email: " + u.getEmail() + "\n" +
+                                "Age: " + u.getAge() + "\n" +
+                                "Profession: " + u.getProfession() + "\n" +
+                                "Hobby: " + u.getHobby()
+                );
+            } else {
+                info.setText("Failed to load user data");
+            }
 
         } catch (Exception e) {
             info.setText("Failed to load user data");
