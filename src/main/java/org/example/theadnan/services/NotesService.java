@@ -41,15 +41,28 @@ public class NotesService {
         }
     }
 
+    // Updated: try UPDATE first, then INSERT if update didn't affect any row.
     public static void saveNote(String email, String title, String content) throws Exception {
+        String updateSql = "UPDATE notes SET content = ? WHERE user_email = ? AND title = ?";
+        String insertSql = "INSERT INTO notes (user_email, title, content) VALUES (?, ?, ?)";
+
         try (Connection conn = Database.connect();
-             PreparedStatement ps = conn.prepareStatement(
-                     "INSERT OR REPLACE INTO notes (user_email, title, content) VALUES (?, ?, ?)"
-             )) {
-            ps.setString(1, email);
-            ps.setString(2, title);
-            ps.setString(3, content);
-            ps.executeUpdate();
+             PreparedStatement updatePs = conn.prepareStatement(updateSql)) {
+
+            updatePs.setString(1, content);
+            updatePs.setString(2, email);
+            updatePs.setString(3, title);
+
+            int updated = updatePs.executeUpdate();
+
+            if (updated == 0) {
+                try (PreparedStatement insertPs = conn.prepareStatement(insertSql)) {
+                    insertPs.setString(1, email);
+                    insertPs.setString(2, title);
+                    insertPs.setString(3, content);
+                    insertPs.executeUpdate();
+                }
+            }
         }
     }
 
