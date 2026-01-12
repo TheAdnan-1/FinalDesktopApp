@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 
-<AnchorPane prefWidth="600" prefHeight="400"
+<AnchorPane prefWidth="800" prefHeight="500"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.theadnan.LoginController">
-
-
-    <TextField fx:id="email" layoutX="200" layoutY="120" promptText="Email"/>
-    <PasswordField fx:id="password" layoutX="200" layoutY="170" promptText="Password"/>
-
-    <Button text="Login" layoutX="250" layoutY="230"
-            onAction="#loginUser"/>
-
-    <Label fx:id="status" layoutX="200" layoutY="280"/>
-
+    <VBox alignment="CENTER" spacing="12" layoutX="200" layoutY="80">
+        <Label text="Login" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <TextField fx:id="email" promptText="Email" />
+        <PasswordField fx:id="password" promptText="Password"/>
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Login" onAction="#loginUser"/>
+            <Button text="Back" onAction="#goBack"/>
+        </HBox>
+        <Label fx:id="status" textFill="red"/>
+    </VBox>
 </AnchorPane>
-

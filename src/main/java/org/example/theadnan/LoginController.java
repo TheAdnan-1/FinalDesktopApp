@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 import org.example.theadnan.services.AuthService;
 
 import java.util.Optional;
@@ -15,12 +17,7 @@ public class LoginController {
     @FXML private PasswordField password;
     @FXML private Label status;
 
-    // Admin credentials (kept for reference). The actual admin routing uses the isAdmin flag
-    // stored in the users table (the Database initializer ensures admin@example.app.com exists).
-    private static final String ADMIN_EMAIL = "admin@example.app.com";
-    private static final String ADMIN_PASSWORD = "AdminIsTheKing";
-
-    public void loginUser() {
+    public void loginUser(ActionEvent event) {
         String inputEmail = email.getText().trim();
         String inputPassword = password.getText();
 
@@ -44,16 +41,20 @@ public class LoginController {
             return;
         }
 
+        // Set session
+        Session.setCurrentUser(inputEmail);
+
         // 2) Auth succeeded. Determine whether the user is admin (use DB flag).
         try {
-            Optional<User> opt = AuthService.getUser(inputEmail);
+            Optional<org.example.theadnan.User> opt = org.example.theadnan.services.AuthService.getUser(inputEmail);
             if (opt.isPresent() && opt.get().isAdmin()) {
                 // Admin -> open admin panel
                 try {
                     FXMLLoader loader = new FXMLLoader(
                             getClass().getResource("/org/example/theadnan/admin.fxml"));
                     Scene scene = new Scene(loader.load());
-                    Stage stage = (Stage) email.getScene().getWindow();
+                    ThemeService.initScene(scene);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(scene);
                     return;
                 } catch (Exception e) {
@@ -67,11 +68,12 @@ public class LoginController {
                     FXMLLoader loader = new FXMLLoader(
                             getClass().getResource("/org/example/theadnan/dashboard.fxml"));
                     Scene scene = new Scene(loader.load());
+                    ThemeService.initScene(scene);
 
                     DashboardController controller = loader.getController();
                     controller.loadUser(inputEmail);
 
-                    Stage stage = (Stage) email.getScene().getWindow();
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(scene);
                     return;
                 } catch (Exception e) {
@@ -83,6 +85,20 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
             status.setText("Login error (loading user). See console.");
+        }
+    }
+
+    @FXML
+    public void goBack(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/theadnan/home.fxml"));
+            Scene scene = new Scene(loader.load());
+            ThemeService.initScene(scene);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+            status.setText("Failed to go back");
         }
     }
 }

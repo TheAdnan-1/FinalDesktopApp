@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,21 +8,11 @@
 <AnchorPane prefWidth="900" prefHeight="600"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.theadnan.DashboardController">
-    <!-- User info + balance shown in info label -->
-    <Label fx:id="info" layoutX="200" layoutY="20"
-           style="-fx-font-size: 14px; -fx-font-family: 'Segoe UI';"/>
-
-    <!-- Notes button -->
-    <Button layoutX="50" layoutY="80"
-            text="My Notes"
-            onAction="#openNotes"/>
-
-    <!-- Admin Panel button (visible for admins) -->
-    <Button fx:id="adminPanelBtn" layoutX="140" layoutY="80"
-            text="Admin Panel"
-            onAction="#openAdminPanel" visible="false"/>
-
-    <!-- Balance update section -->
+    <Label fx:id="info" layoutX="200" layoutY="20" style="-fx-font-size: 14px;"/>
+    <Button layoutX="50" layoutY="80" text="My Notes" onAction="#openNotes"/>
+    <Button fx:id="adminPanelBtn" layoutX="140" layoutY="80" text="Admin Panel" onAction="#openAdminPanel" visible="false"/>
+    <Button layoutX="420" layoutY="80" text="Logout" onAction="#logout"/>
+    <!-- rest unchanged -->
     <Label layoutX="50" layoutY="140" text="Update Balance" style="-fx-font-weight: bold;"/>
     <Label layoutX="50" layoutY="170" text="Email:"/>
     <TextField fx:id="balanceEmail" layoutX="110" layoutY="166" prefWidth="220"/>
@@ -34,7 +23,6 @@
     <Button layoutX="250" layoutY="196" text="Add" onAction="#addBalance"/>
     <Button layoutX="300" layoutY="196" text="Deduct" onAction="#deductBalance"/>
 
-    <!-- Request money section -->
     <Label layoutX="50" layoutY="260" text="Request Money" style="-fx-font-weight: bold;"/>
     <Label layoutX="50" layoutY="290" text="To (email):"/>
     <TextField fx:id="requestEmailField" layoutX="120" layoutY="286" prefWidth="220"/>
@@ -42,13 +30,11 @@
     <TextField fx:id="requestAmountField" layoutX="410" layoutY="286" prefWidth="120" promptText="e.g., 5.00"/>
     <Button layoutX="540" layoutY="286" text="Send Request" onAction="#sendRequest"/>
 
-    <!-- Requests list -->
     <Label layoutX="50" layoutY="340" text="Your Requests (incoming/outgoing):" style="-fx-font-weight: bold;"/>
     <ListView fx:id="requestsList" layoutX="50" layoutY="370" prefWidth="740" prefHeight="150"/>
     <Button layoutX="50" layoutY="530" text="Accept" onAction="#acceptSelectedRequest"/>
     <Button layoutX="120" layoutY="530" text="Cancel" onAction="#cancelSelectedRequest"/>
 
-    <!-- Report user section -->
     <Label layoutX="520" layoutY="140" text="Report User" style="-fx-font-weight: bold;"/>
     <Label layoutX="520" layoutY="170" text="Target Email:"/>
     <TextField fx:id="reportTargetEmail" layoutX="600" layoutY="166" prefWidth="190"/>
@@ -56,7 +42,5 @@
     <TextArea fx:id="reportMessageArea" layoutX="600" layoutY="196" prefWidth="190" prefHeight="110"/>
     <Button layoutX="600" layoutY="310" text="Send Report" onAction="#sendReport"/>
 
-    <!-- status -->
     <Label fx:id="statusLabel" layoutX="250" layoutY="530" style="-fx-text-fill: red;"/>
-
 </AnchorPane>

@@ -1,0 +1,97 @@
+/* Dark theme */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #0f1724, #121826);
+    -fx-text-fill: #e6eef8;
+}
+
+.label {
+    -fx-text-fill: #e6eef8;
+}
+
+.button {
+    -fx-background-color: linear-gradient(#2b6ea3, #1b4f7a);
+    -fx-text-fill: white;
+    -fx-padding: 8 12 8 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 6, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#3a80c0, #2b6ea3);
+}
+
+.button:focused {
+    -fx-outline: none;
+    -fx-effect: dropshadow(two-pass-box, rgba(58,128,192,0.6), 8, 0, 0, 3);
+}
+
+.text-field, .password-field {
+    -fx-background-color: rgba(255,255,255,0.04);
+    -fx-text-fill: #e6eef8;
+    -fx-prompt-text-fill: rgba(230,238,248,0.5);
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8;
+    -fx-border-color: transparent;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: rgba(58,128,192,0.8);
+}
+
+.card {
+    -fx-background-color: linear-gradient(#101620, #121827);
+    -fx-background-radius: 10;
+    -fx-padding: 14;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 10, 0, 0, 4);
+    -fx-alignment: center;
+}
+/* Light theme */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #f6f9fc, #e9eef6);
+    -fx-text-fill: #102030;
+}
+
+.label {
+    -fx-text-fill: #102030;
+}
+
+.button {
+    -fx-background-color: linear-gradient(#5b8bd0, #3a6fb2);
+    -fx-text-fill: white;
+    -fx-padding: 8 12 8 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 6, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#6a9be3, #4a82c6);
+}
+
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-text-fill: #102030;
+    -fx-prompt-text-fill: rgba(16,32,48,0.45);
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8;
+    -fx-border-color: transparent;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: rgba(74,116,176,0.8);
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 14;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(16,32,48,0.08), 10, 0, 0, 4);
+    -fx-alignment: center;
+}

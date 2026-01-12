@@ -69,7 +69,7 @@ public class DashboardController {
                                 "Hobby: " + u.getHobby() + "\n" +
                                 String.format("Balance: %.2f", u.getBalance())
                 );
-                // pre-fill balanceEmail (editable as requested)
+                // pre-fill balanceEmail (editable)
                 balanceEmail.setText(u.getEmail());
 
                 // show admin button if user is admin
@@ -99,6 +99,8 @@ public class DashboardController {
             controller.setUserEmail(currentUserEmail);
 
             Stage stage = (Stage) info.getScene().getWindow();
+            ThemeService.init(scene);
+            if (ThemeService.isDark()) ThemeService.applyDark(scene); else ThemeService.applyLight(scene);
             stage.setScene(scene);
             stage.setTitle("My Notes");
 
@@ -116,11 +118,54 @@ public class DashboardController {
             Scene scene = new Scene(loader.load());
 
             Stage stage = (Stage) info.getScene().getWindow();
+            ThemeService.init(scene);
+            if (ThemeService.isDark()) ThemeService.applyDark(scene); else ThemeService.applyLight(scene);
             stage.setScene(scene);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // ---------------- NEW: open Weather ----------------
+    @FXML
+    public void openWeather() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/theadnan/weather.fxml")
+            );
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) info.getScene().getWindow();
+            ThemeService.init(scene);
+            if (ThemeService.isDark()) ThemeService.applyDark(scene); else ThemeService.applyLight(scene);
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ---------------- NEW: logout ----------------
+    @FXML
+    public void logout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/theadnan/home.fxml")
+            );
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) info.getScene().getWindow();
+            ThemeService.init(scene);
+            if (ThemeService.isDark()) ThemeService.applyDark(scene); else ThemeService.applyLight(scene);
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ---------------- NEW: toggle theme ----------------
+    @FXML
+    public void toggleTheme() {
+        Scene scene = info.getScene();
+        ThemeService.toggle(scene);
     }
 
     // ---------------- Balance update ----------------

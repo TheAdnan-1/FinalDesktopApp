@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.theadnan.HomeController">
-   <children>
-      <Button layoutX="264.0" layoutY="111.0" mnemonicParsing="false" onAction="#openCurrency" text="Convert Currency" />
-      <Button layoutX="292.0" layoutY="175.0" mnemonicParsing="false" onAction="#openLogin" text="Login" />
-      <Button layoutX="286.0" layoutY="224.0" mnemonicParsing="false" onAction="#openRegister" text="Register" />
-      <Button layoutX="289.0" layoutY="274.0" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
-   </children>
+<AnchorPane prefWidth="900" prefHeight="600"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.theadnan.HomeController">
+    <VBox alignment="CENTER" spacing="18" layoutX="150" layoutY="60" prefWidth="600">
+        <Label text="Utility Desktop Application" style="-fx-font-size: 28px; -fx-font-weight: bold;" />
+        <HBox spacing="12" alignment="CENTER">
+            <Button text="Currency Converter" onAction="#openCurrency" />
+            <Button text="Weather" onAction="#openWeather" />
+            <Button text="Login" onAction="#openLogin" />
+            <Button text="Register" onAction="#openRegister" />
+        </HBox>
+        <HBox spacing="12" alignment="CENTER">
+            <Button text="Toggle Theme" onAction="#toggleTheme" />
+            <Button text="Exit" onAction="#exitApp" />
+        </HBox>
+    </VBox>
 </AnchorPane>

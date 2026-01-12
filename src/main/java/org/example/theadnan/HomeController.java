@@ -5,32 +5,45 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.fxml.FXML;
 
 public class HomeController {
 
-    private void switchScene(ActionEvent event, String fxml) {
+    private void loadScene(String fxml, ActionEvent event) {
         try {
-            Stage stage = (Stage) ((Node) event.getSource())
-                    .getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/org/example/theadnan/" + fxml)
             );
-            stage.setScene(new Scene(loader.load()));
+            Scene scene = new Scene(loader.load());
+            ThemeService.initScene(scene);
+
+            Stage stage = (Stage) ((Node) event.getSource())
+                    .getScene().getWindow();
+            stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void openCurrency(ActionEvent event) {
-        switchScene(event, "currency.fxml");
+        loadScene("currency.fxml", event);
     }
 
     public void openLogin(ActionEvent event) {
-        switchScene(event, "login.fxml");
+        loadScene("login.fxml", event);
     }
 
     public void openRegister(ActionEvent event) {
-        switchScene(event, "register.fxml");
+        loadScene("register.fxml", event);
+    }
+
+    public void openWeather(ActionEvent event) {
+        loadScene("weather.fxml", event);
+    }
+
+    public void toggleTheme(ActionEvent event) {
+        Scene scene = ((Node) event.getSource()).getScene();
+        ThemeService.toggle(scene);
     }
 
     public void exitApp() {

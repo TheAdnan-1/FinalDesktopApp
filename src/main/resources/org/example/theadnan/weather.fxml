@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefWidth="800" prefHeight="500"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.theadnan.WeatherController">
+
+    <VBox layoutX="60" layoutY="40" spacing="12" prefWidth="680" alignment="TOP_CENTER">
+        <Label text="Weather" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+        <HBox spacing="8" alignment="CENTER">
+            <TextField fx:id="cityField" prefWidth="320"/>
+            <Button fx:id="fetchButton" text="Get Weather" onAction="#fetchWeather"/>
+        </HBox>
+
+        <VBox spacing="6" prefWidth="480" styleClass="card" alignment="CENTER">
+            <Label fx:id="locationLabel" text="Location" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Label fx:id="tempLabel" text="-- °C" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
+            <Label fx:id="condLabel" text="Condition" />
+            <Label fx:id="windLabel" text="Wind: -- km/h"/>
+        </VBox>
+
+        <Label fx:id="statusLabel" textFill="red"/>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button fx:id="backButton" text="Back" onAction="#goBack"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
