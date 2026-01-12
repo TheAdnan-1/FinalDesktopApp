@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+
+<AnchorPane prefWidth="900" prefHeight="600"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.theadnan.AdminController">
+
+    <Label layoutX="20" layoutY="10" text="Admin Panel - Reports" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <ListView fx:id="reportsList" layoutX="20" layoutY="50" prefWidth="420" prefHeight="480"/>
+
+    <Label layoutX="460" layoutY="50" text="Report Details" style="-fx-font-weight: bold;"/>
+    <Label layoutX="460" layoutY="80" text="Reporter:"/>
+    <TextField fx:id="reporterField" layoutX="540" layoutY="76" prefWidth="320" editable="false"/>
+    <Label layoutX="460" layoutY="110" text="Target:"/>
+    <TextField fx:id="targetField" layoutX="540" layoutY="106" prefWidth="320" editable="false"/>
+    <Label layoutX="460" layoutY="140" text="Amount / Message:"/>
+    <TextArea fx:id="messageArea" layoutX="540" layoutY="136" prefWidth="320" prefHeight="240" editable="false"/>
+
+    <Label layoutX="460" layoutY="390" text="Status:"/>
+    <TextField fx:id="statusField" layoutX="540" layoutY="386" prefWidth="160" editable="false"/>
+
+    <Button layoutX="520" layoutY="430" text="Mark Reviewed" onAction="#markReviewed"/>
+    <Button layoutX="640" layoutY="430" text="Block User" onAction="#blockUser"/>
+    <Button layoutX="760" layoutY="430" text="Refresh" onAction="#loadReports"/>
+
+    <Label fx:id="adminStatus" layoutX="520" layoutY="470" style="-fx-text-fill: red;"/>
+
+    <Button layoutX="20" layoutY="550" text="Back" onAction="#goBack"/>
+</AnchorPane>

@@ -36,30 +36,36 @@ public class AuthService {
         }
     }
 
-    // ---------- LOGIN ----------
-    public static boolean login(String email, String password) {
-
-        String sql = """
-            SELECT * FROM users WHERE email = ? AND password = ?
-            """;
+    // ---------- LOGIN STATUS ----------
+    // returns "OK", "INVALID", or "BLOCKED"
+    public static String loginStatus(String email, String password) {
+        String sql = "SELECT password, blocked FROM users WHERE email = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, email);
-            ps.setString(2, password);
-
             try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
+                if (!rs.next()) return "INVALID";
+                int blocked = 0;
+                try { blocked = rs.getInt("blocked"); } catch (Exception ignored) {}
+                if (blocked == 1) return "BLOCKED";
+                String actual = rs.getString("password");
+                if (actual != null && actual.equals(password)) return "OK";
+                return "INVALID";
             }
 
         } catch (Exception e) {
-            return false;
+            return "INVALID";
         }
     }
 
+    // keep old login for compatibility (simple wrapper)
+    public static boolean login(String email, String password) {
+        return "OK".equals(loginStatus(email, password));
+    }
+
     // ---------- GET USER ----------
-    // Read the user while the connection is open and return a plain object.
     public static Optional<User> getUser(String email) throws Exception {
 
         String sql = "SELECT * FROM users WHERE email = ?";
@@ -72,10 +78,14 @@ public class AuthService {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     double balance = 0.0;
+                    boolean isAdmin = false;
+                    boolean blocked = false;
                     try {
                         balance = rs.getDouble("balance");
                         if (rs.wasNull()) balance = 0.0;
                     } catch (Exception ignored) {}
+                    try { isAdmin = rs.getInt("is_admin") == 1; } catch (Exception ignored) {}
+                    try { blocked = rs.getInt("blocked") == 1; } catch (Exception ignored) {}
 
                     User user = new User(
                             rs.getString("email"),
@@ -83,7 +93,9 @@ public class AuthService {
                             rs.getInt("age"),
                             rs.getString("profession"),
                             rs.getString("hobby"),
-                            balance
+                            balance,
+                            isAdmin,
+                            blocked
                     );
                     return Optional.of(user);
                 } else {

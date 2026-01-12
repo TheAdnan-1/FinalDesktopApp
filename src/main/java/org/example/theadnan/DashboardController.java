@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.theadnan.services.AuthService;
 import org.example.theadnan.services.MoneyRequestService;
+import org.example.theadnan.services.ReportService;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,15 @@ public class DashboardController {
     @FXML
     private Label statusLabel;
 
+    @FXML
+    private Button adminPanelBtn;
+
+    @FXML
+    private TextField reportTargetEmail;
+
+    @FXML
+    private TextArea reportMessageArea;
+
     private String currentUserEmail;
 
     private final ObservableList<MoneyRequest> requests = FXCollections.observableArrayList();
@@ -61,6 +71,9 @@ public class DashboardController {
                 );
                 // pre-fill balanceEmail (editable as requested)
                 balanceEmail.setText(u.getEmail());
+
+                // show admin button if user is admin
+                adminPanelBtn.setVisible(u.isAdmin());
 
                 loadRequests();
             } else {
@@ -88,6 +101,22 @@ public class DashboardController {
             Stage stage = (Stage) info.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("My Notes");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void openAdminPanel() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/theadnan/admin.fxml")
+            );
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) info.getScene().getWindow();
+            stage.setScene(scene);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,4 +245,26 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
+
+    // ---------------- Report user ----------------
+    @FXML
+    public void sendReport() {
+        statusLabel.setText("");
+        String target = reportTargetEmail.getText().trim();
+        String msg = reportMessageArea.getText().trim();
+        if (target.isEmpty() || msg.isEmpty()) {
+            statusLabel.setText("Target email and message are required");
+            return;
+        }
+        try {
+            ReportService.createReport(currentUserEmail, target, msg);
+            statusLabel.setStyle("-fx-text-fill: green;");
+            statusLabel.setText("Report submitted");
+        } catch (Exception e) {
+            statusLabel.setStyle("-fx-text-fill: red;");
+            statusLabel.setText("Failed to submit report");
+            e.printStackTrace();
+        }
+    }
+
 }

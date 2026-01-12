@@ -12,7 +12,7 @@ public class Database {
         try (Connection conn = DriverManager.getConnection(URL);
              Statement stmt = conn.createStatement()) {
 
-            // users table (email is primary key). balance column may already exist; we try to add it below.
+            // users table (email is primary key). Add balance/is_admin/blocked columns where possible.
             String usersSql = """
 CREATE TABLE IF NOT EXISTS users (
     email TEXT PRIMARY KEY,
@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS users (
     profession TEXT,
     hobby TEXT,
     password TEXT,
-    balance REAL DEFAULT 0
+    balance REAL DEFAULT 0,
+    is_admin INTEGER DEFAULT 0,
+    blocked INTEGER DEFAULT 0
 );
 """;
 
@@ -37,7 +39,7 @@ CREATE TABLE IF NOT EXISTS notes (
 );
 """;
 
-            // money_requests table
+            // money_requests table (existing or created earlier)
             String requestsSql = """
 CREATE TABLE IF NOT EXISTS money_requests (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,15 +53,47 @@ CREATE TABLE IF NOT EXISTS money_requests (
 );
 """;
 
+            // reports table (new)
+            String reportsSql = """
+CREATE TABLE IF NOT EXISTS reports (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    reporter_email TEXT NOT NULL,
+    target_email TEXT NOT NULL,
+    message TEXT,
+    status TEXT NOT NULL, -- PENDING / REVIEWED / ACTIONED
+    created_at TEXT,
+    FOREIGN KEY(reporter_email) REFERENCES users(email),
+    FOREIGN KEY(target_email) REFERENCES users(email)
+);
+""";
+
             stmt.execute(usersSql);
             stmt.execute(notesSql);
             stmt.execute(requestsSql);
+            stmt.execute(reportsSql);
 
-            // If users table existed without balance column, try to add it.
+            // For older DBs, try to add individual columns (ignored if they exist)
+            try { stmt.execute("ALTER TABLE users ADD COLUMN balance REAL DEFAULT 0"); } catch (Exception ignored) {}
+            try { stmt.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0"); } catch (Exception ignored) {}
+            try { stmt.execute("ALTER TABLE users ADD COLUMN blocked INTEGER DEFAULT 0"); } catch (Exception ignored) {}
+
+            // Ensure admin account exists with the requested credentials and is_admin flag set.
+            // If admin doesn't exist, INSERT OR IGNORE adds it; then UPDATE ensures password/is_admin are set.
             try {
-                stmt.execute("ALTER TABLE users ADD COLUMN balance REAL DEFAULT 0");
+                String adminEmail = "admin@example.app.com";
+                String adminPassword = "AdminIsTheKing";
+                // Insert with defaults only if not exists
+                stmt.execute(String.format(
+                        "INSERT OR IGNORE INTO users(email, name, age, profession, hobby, password, balance, is_admin, blocked) VALUES ('%s', 'Admin', 0, 'admin', 'admin', '%s', 0, 1, 0)",
+                        adminEmail, adminPassword
+                ));
+                // Ensure admin flag and password are correct (sets password and admin flag even if row existed)
+                stmt.execute(String.format(
+                        "UPDATE users SET is_admin = 1, password = '%s' WHERE email = '%s'",
+                        adminPassword, adminEmail
+                ));
             } catch (Exception ignored) {
-                // column already exists or cannot be added; ignore
+                // ignore any errors here (best-effort)
             }
 
         } catch (Exception e) {

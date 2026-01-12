@@ -18,7 +18,12 @@
             text="My Notes"
             onAction="#openNotes"/>
 
+    <!-- Admin Panel button (visible for admins) -->
+    <Button fx:id="adminPanelBtn" layoutX="140" layoutY="80"
+            text="Admin Panel"
+            onAction="#openAdminPanel" visible="false"/>
 
+    <!-- ---------------- Balance Update Section ---------------- -->
     <Label layoutX="50" layoutY="140" text="Update Balance" style="-fx-font-weight: bold;"/>
     <Label layoutX="50" layoutY="170" text="Email:"/>
     <TextField fx:id="balanceEmail" layoutX="110" layoutY="166" prefWidth="220"/>
@@ -29,7 +34,7 @@
     <Button layoutX="250" layoutY="196" text="Add" onAction="#addBalance"/>
     <Button layoutX="300" layoutY="196" text="Deduct" onAction="#deductBalance"/>
 
-
+    <!-- ---------------- Request Money Section ---------------- -->
     <Label layoutX="50" layoutY="260" text="Request Money" style="-fx-font-weight: bold;"/>
     <Label layoutX="50" layoutY="290" text="To (email):"/>
     <TextField fx:id="requestEmailField" layoutX="120" layoutY="286" prefWidth="220"/>
@@ -37,11 +42,19 @@
     <TextField fx:id="requestAmountField" layoutX="410" layoutY="286" prefWidth="120" promptText="e.g., 5.00"/>
     <Button layoutX="540" layoutY="286" text="Send Request" onAction="#sendRequest"/>
 
-
+    <!-- ---------------- Requests List ---------------- -->
     <Label layoutX="50" layoutY="340" text="Your Requests (incoming/outgoing):" style="-fx-font-weight: bold;"/>
     <ListView fx:id="requestsList" layoutX="50" layoutY="370" prefWidth="740" prefHeight="150"/>
     <Button layoutX="50" layoutY="530" text="Accept" onAction="#acceptSelectedRequest"/>
     <Button layoutX="120" layoutY="530" text="Cancel" onAction="#cancelSelectedRequest"/>
+
+    <!-- ---------------- Report User Section ---------------- -->
+    <Label layoutX="520" layoutY="140" text="Report User" style="-fx-font-weight: bold;"/>
+    <Label layoutX="520" layoutY="170" text="Target Email:"/>
+    <TextField fx:id="reportTargetEmail" layoutX="600" layoutY="166" prefWidth="190"/>
+    <Label layoutX="520" layoutY="200" text="Message:"/>
+    <TextArea fx:id="reportMessageArea" layoutX="600" layoutY="196" prefWidth="190" prefHeight="110"/>
+    <Button layoutX="600" layoutY="310" text="Send Report" onAction="#sendReport"/>
 
     <!-- status -->
     <Label fx:id="statusLabel" layoutX="250" layoutY="530" style="-fx-text-fill: red;"/>
