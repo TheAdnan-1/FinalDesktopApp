@@ -71,18 +71,79 @@ public class AuthService {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    double balance = 0.0;
+                    try {
+                        balance = rs.getDouble("balance");
+                        if (rs.wasNull()) balance = 0.0;
+                    } catch (Exception ignored) {}
+
                     User user = new User(
                             rs.getString("email"),
                             rs.getString("name"),
                             rs.getInt("age"),
                             rs.getString("profession"),
-                            rs.getString("hobby")
+                            rs.getString("hobby"),
+                            balance
                     );
                     return Optional.of(user);
                 } else {
                     return Optional.empty();
                 }
             }
+        }
+    }
+
+    /**
+     * Try to update user's balance after verifying email/password.
+     * delta may be positive (add) or negative (deduct).
+     * Returns null on success, or an error message on failure.
+     */
+    public static String updateBalanceWithAuth(String email, String password, double delta) {
+        String selectSql = "SELECT balance, password FROM users WHERE email = ?";
+        String updateSql = "UPDATE users SET balance = ? WHERE email = ?";
+
+        try (Connection conn = Database.connect();
+             PreparedStatement ps = conn.prepareStatement(selectSql)) {
+
+            conn.setAutoCommit(false);
+
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    conn.rollback();
+                    return "User not found";
+                }
+                String actualPassword = rs.getString("password");
+                if (actualPassword == null || !actualPassword.equals(password)) {
+                    conn.rollback();
+                    return "Invalid password";
+                }
+                double current = 0.0;
+                try {
+                    current = rs.getDouble("balance");
+                    if (rs.wasNull()) current = 0.0;
+                } catch (Exception ignored) {}
+
+                double updated = current + delta;
+                if (updated < 0) {
+                    conn.rollback();
+                    return "Insufficient funds (balance cannot be negative)";
+                }
+
+                try (PreparedStatement ups = conn.prepareStatement(updateSql)) {
+                    ups.setDouble(1, updated);
+                    ups.setString(2, email);
+                    ups.executeUpdate();
+                }
+
+                conn.commit();
+                return null; // success
+            } catch (Exception e) {
+                try { conn.rollback(); } catch (Exception ignored) {}
+                return "Error updating balance";
+            }
+        } catch (Exception e) {
+            return "Database error";
         }
     }
 }
