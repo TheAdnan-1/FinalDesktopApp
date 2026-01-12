@@ -1,0 +1,31 @@
+/* dark.css */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #0f1724, #121826);
+    -fx-text-fill: #e6eef8;
+}
+
+.label { -fx-text-fill: #e6eef8; }
+
+.button {
+    -fx-background-color: linear-gradient(#2b6ea3, #1b4f7a);
+    -fx-text-fill: white;
+    -fx-padding: 8 12;
+    -fx-background-radius: 6;
+}
+
+.button:hover { -fx-background-color: linear-gradient(#3a80c0, #2b6ea3); }
+
+.text-field, .password-field {
+    -fx-background-color: rgba(255,255,255,0.04);
+    -fx-text-fill: #e6eef8;
+    -fx-prompt-text-fill: rgba(230,238,248,0.5);
+    -fx-background-radius: 6;
+    -fx-padding: 6;
+}
+
+.card {
+    -fx-background-color: linear-gradient(#101620, #121827);
+    -fx-background-radius: 10;
+    -fx-padding: 12;
+}

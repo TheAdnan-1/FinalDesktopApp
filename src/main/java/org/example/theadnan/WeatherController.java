@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -30,13 +32,19 @@ public class WeatherController {
     @FXML
     public void initialize() {
         cityField.setPromptText("Enter city (e.g., London)");
-        // Optional: load a default city
+        // optional default
         cityField.setText("New York");
+        // you can pre-run fetchWeather() here or not
+    }
+
+    // NOTE: method must be public (or annotated @FXML) and signature must match FXML onAction
+    @FXML
+    public void fetchWeather(ActionEvent event) {
         fetchWeather();
     }
 
-    @FXML
-    public void fetchWeather() {
+    // programmatic version used by the button handler above
+    private void fetchWeather() {
         statusLabel.setText("");
         String city = cityField.getText().trim();
         if (city.isEmpty()) {
@@ -45,6 +53,7 @@ public class WeatherController {
         }
 
         fetchButton.setDisable(true);
+
         new Thread(() -> {
             try {
                 Optional<double[]> coords = geocodeCity(city);
@@ -85,7 +94,6 @@ public class WeatherController {
                 int weatherCode = current.path("weathercode").asInt(-1);
 
                 String cond = weatherDescription(weatherCode);
-
                 String displayLocation = city + " (" + String.format("%.4f, %.4f", lat, lon) + ")";
 
                 runOnFx(() -> {
@@ -106,7 +114,6 @@ public class WeatherController {
         }).start();
     }
 
-    // Simple geocoding via Open‑Meteo geocoding API
     private Optional<double[]> geocodeCity(String city) throws Exception {
         String url = "https://geocoding-api.open-meteo.com/v1/search?name=" + java.net.URLEncoder.encode(city, "UTF-8") + "&count=1";
         HttpRequest req = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
@@ -123,7 +130,6 @@ public class WeatherController {
     }
 
     private String weatherDescription(int code) {
-        // based on WMO weather codes (simplified)
         return switch (code) {
             case 0 -> "Clear sky";
             case 1, 2, 3 -> "Mainly clear / partly cloudy";
@@ -146,21 +152,23 @@ public class WeatherController {
     }
 
     @FXML
-    public void goBack() {
+    public void goBack(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/theadnan/dashboard.fxml")
-            );
+            boolean loggedIn = Session.isLoggedIn();
+            String fxml = loggedIn ? "/org/example/theadnan/dashboard.fxml" : "/org/example/theadnan/home.fxml";
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Scene scene = new Scene(loader.load());
 
-            DashboardController controller = loader.getController();
-            // try to preserve session (controller.loadUser must be given the current user)
-            // As we don't have a global session here, user will be asked to re-login if needed.
-            // If you keep the currentUserEmail in a central place, set it here.
-            // For now, open dashboard without user data (or adapt to pass email).
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(scene);
+            ThemeService.initScene(scene);
 
+            if (loggedIn) {
+                DashboardController controller = loader.getController();
+                controller.loadUser(Session.getCurrentUser());
+            }
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
             statusLabel.setText("Failed to go back");

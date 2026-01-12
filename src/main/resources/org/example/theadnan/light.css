@@ -1,0 +1,31 @@
+/* light.css */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #f6f9fc, #e9eef6);
+    -fx-text-fill: #102030;
+}
+
+.label { -fx-text-fill: #102030; }
+
+.button {
+    -fx-background-color: linear-gradient(#5b8bd0, #3a6fb2);
+    -fx-text-fill: white;
+    -fx-padding: 8 12;
+    -fx-background-radius: 6;
+}
+
+.button:hover { -fx-background-color: linear-gradient(#6a9be3, #4a82c6); }
+
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-text-fill: #102030;
+    -fx-prompt-text-fill: rgba(16,32,48,0.45);
+    -fx-background-radius: 6;
+    -fx-padding: 6;
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 12;
+}

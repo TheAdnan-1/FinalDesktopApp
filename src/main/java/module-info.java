@@ -12,6 +12,7 @@ module org.example.theadnan {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires com.fasterxml.jackson.databind;
+    requires javafx.graphics;
 
     opens org.example.theadnan to javafx.fxml;
     exports org.example.theadnan;

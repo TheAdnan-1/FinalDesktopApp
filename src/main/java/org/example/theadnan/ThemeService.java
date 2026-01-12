@@ -3,51 +3,39 @@ package org.example.theadnan;
 import javafx.scene.Scene;
 
 /**
- * Utility to manage dark/light themes by adding/removing stylesheet paths.
- * Provides both init(scene) and initScene(scene) for compatibility with different callers.
+ * Theme manager: exposes init(scene), initScene(scene), applyDark/applyLight/toggle/isDark.
  */
 public final class ThemeService {
-
-    private static final String DARK_CSS = "/org/example/theadnan/dark.css";
-    private static final String LIGHT_CSS = "/org/example/theadnan/light.css";
-
-    // default theme
     private static boolean dark = true;
 
     private ThemeService() {}
 
-    /**
-     * Initialize a scene for theme handling: remove any existing theme entries and
-     * apply the current theme.
-     */
     public static void init(Scene scene) {
         if (scene == null) return;
-        scene.getStylesheets().remove(DARK_CSS);
-        scene.getStylesheets().remove(LIGHT_CSS);
+        scene.getStylesheets().remove(ThemeService.class.getResource("dark.css").toExternalForm());
+        scene.getStylesheets().remove(ThemeService.class.getResource("light.css").toExternalForm());
         applyCurrent(scene);
     }
 
-    /**
-     * Compatibility alias used by some controllers.
-     */
+    // compatibility alias (some controllers call initScene)
     public static void initScene(Scene scene) {
         init(scene);
     }
 
     public static void applyDark(Scene scene) {
         if (scene == null) return;
-        scene.getStylesheets().remove(LIGHT_CSS);
-        if (!scene.getStylesheets().contains(DARK_CSS)) {
-            scene.getStylesheets().add(DARK_CSS);
+        scene.getStylesheets().remove(ThemeService.class.getResource("light.css").toExternalForm());
+        if (!scene.getStylesheets().contains(ThemeService.class.getResource("dark.css").toExternalForm())) {
+            scene.getStylesheets().add(ThemeService.class.getResource("dark.css").toExternalForm());
         }
         dark = true;
     }
 
     public static void applyLight(Scene scene) {
         if (scene == null) return;
-        scene.getStylesheets().remove(DARK_CSS);
-        if (!scene.getStylesheets().contains(LIGHT_CSS)) {
-            scene.getStylesheets().add(LIGHT_CSS);
+        scene.getStylesheets().remove(ThemeService.class.getResource("dark.css").toExternalForm());
+        if (!scene.getStylesheets().contains(ThemeService.class.getResource("light.css").toExternalForm())) {
+            scene.getStylesheets().add(ThemeService.class.getResource("light.css").toExternalForm());
         }
         dark = false;
     }

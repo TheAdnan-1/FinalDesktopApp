@@ -21,7 +21,6 @@ public class LoginController {
         String inputEmail = email.getText().trim();
         String inputPassword = password.getText();
 
-        // 1) Authenticate and check blocked state
         String st;
         try {
             st = AuthService.loginStatus(inputEmail, inputPassword);
@@ -41,46 +40,29 @@ public class LoginController {
             return;
         }
 
-        // Set session
+        // record session
         Session.setCurrentUser(inputEmail);
 
-        // 2) Auth succeeded. Determine whether the user is admin (use DB flag).
         try {
             Optional<org.example.theadnan.User> opt = org.example.theadnan.services.AuthService.getUser(inputEmail);
             if (opt.isPresent() && opt.get().isAdmin()) {
-                // Admin -> open admin panel
-                try {
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/org/example/theadnan/admin.fxml"));
-                    Scene scene = new Scene(loader.load());
-                    ThemeService.initScene(scene);
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    return;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    status.setText("Failed to open admin UI. See console.");
-                    return;
-                }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/theadnan/admin.fxml"));
+                Scene scene = new Scene(loader.load());
+                ThemeService.initScene(scene);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                return;
             } else {
-                // Normal user -> open dashboard
-                try {
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/org/example/theadnan/dashboard.fxml"));
-                    Scene scene = new Scene(loader.load());
-                    ThemeService.initScene(scene);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/theadnan/dashboard.fxml"));
+                Scene scene = new Scene(loader.load());
+                ThemeService.initScene(scene);
 
-                    DashboardController controller = loader.getController();
-                    controller.loadUser(inputEmail);
+                DashboardController controller = loader.getController();
+                controller.loadUser(inputEmail);
 
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    return;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    status.setText("Failed to open dashboard. See console.");
-                    return;
-                }
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                return;
             }
         } catch (Exception e) {
             e.printStackTrace();

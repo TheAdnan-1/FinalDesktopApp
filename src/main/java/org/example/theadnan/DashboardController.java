@@ -159,6 +159,8 @@ public class DashboardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // in DashboardController.logout() before loading home:
+        Session.clear();
     }
 
     // ---------------- NEW: toggle theme ----------------
