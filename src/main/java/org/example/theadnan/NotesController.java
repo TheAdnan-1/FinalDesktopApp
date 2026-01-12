@@ -102,14 +102,11 @@ public class NotesController {
     @FXML
     public void goBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/theadnan/dashboard.fxml")
-            );
+            FXMLLoader loader = SceneHelper.loadFxml("dashboard.fxml");
             Scene scene = new Scene(loader.load());
-
+            ThemeService.initScene(scene); // already done by SceneHelper if you use loadScene, but kept here for clarity
             DashboardController controller = loader.getController();
             controller.loadUser(userEmail);
-
             Stage stage = (Stage) notesList.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {

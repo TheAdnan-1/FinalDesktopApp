@@ -85,10 +85,10 @@ public class CurrencyController {
         try {
             Stage stage = (Stage) ((Node) event.getSource())
                     .getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/theadnan/home.fxml")
-            );
-            stage.setScene(new Scene(loader.load()));
+            FXMLLoader loader = SceneHelper.loadFxml("home.fxml");
+            Scene scene = new Scene(loader.load());
+            ThemeService.initScene(scene);
+            stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
         }

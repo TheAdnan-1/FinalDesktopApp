@@ -88,22 +88,14 @@ public class AdminController {
             adminStatus.setText(err);
         }
     }
-
     @FXML
     public void goBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/theadnan/dashboard.fxml")
-            );
-            Scene scene = new Scene(loader.load());
-
-            DashboardController controller = loader.getController();
-            // Dashboard currently loads currentUserEmail on loadUser; attempt to retain it via the info label parsing (or you can store current email in a central place).
-            // For simplicity, reload the dashboard without preserving state; in practice you should keep currentUserEmail in a session.
+            Scene scene = SceneHelper.loadScene("home.fxml");
             Stage stage = (Stage) reportsList.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-}
+    }

@@ -162,6 +162,7 @@ public class WeatherController {
 
             ThemeService.initScene(scene);
 
+
             if (loggedIn) {
                 DashboardController controller = loader.getController();
                 controller.loadUser(Session.getCurrentUser());
