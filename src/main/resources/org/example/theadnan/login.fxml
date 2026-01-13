@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefWidth="800" prefHeight="500"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.theadnan.LoginController">
-    <VBox alignment="CENTER" spacing="12" layoutX="200" layoutY="80">
-        <Label text="Login" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+<AnchorPane prefHeight="500" prefWidth="800" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="org.example.theadnan.LoginController">
+    <VBox alignment="CENTER" layoutX="325.0" layoutY="129.0" spacing="12">
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Login" />
         <TextField fx:id="email" promptText="Email" />
-        <PasswordField fx:id="password" promptText="Password"/>
-        <HBox spacing="10" alignment="CENTER">
-            <Button text="Login" onAction="#loginUser"/>
-            <Button text="Back" onAction="#goBack"/>
-        </HBox>
-        <Label fx:id="status" textFill="red"/>
+        <PasswordField fx:id="password" promptText="Password" />
+        <HBox alignment="CENTER" spacing="10" />
+        <Label fx:id="status" textFill="red" />
     </VBox>
+   <Label layoutX="285.0" layoutY="36.0" text="Welcome Back!">
+      <font>
+         <Font name="System Bold" size="32.0" />
+      </font>
+   </Label>
+   <Label layoutX="664.0" layoutY="468.0" text="Developed by 2207001" />
+   <Label layoutX="279.0" layoutY="175.0" text="Email:">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font>
+   </Label>
+   <Label layoutX="256.0" layoutY="215.0" text="Password:">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font>
+   </Label>
+      <Button layoutX="359.0" layoutY="344.0" onAction="#goBack" text="Back" />
+      <Button layoutX="302.0" layoutY="275.0" onAction="#loginUser" text="Login" />
+   <Button layoutX="410.0" layoutY="275.0" mnemonicParsing="false" text="Forget Password" />
 </AnchorPane>

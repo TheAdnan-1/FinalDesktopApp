@@ -13,7 +13,7 @@ public class MainApplication extends Application {
                 MainApplication.class.getResource("home.fxml")
         );
         Scene scene = new Scene(loader.load());
-        stage.setTitle("Utility Desktop Application");
+        stage.setTitle("Currency Converter and Journal App");
 
         // Ensure the first scene has theme applied
         ThemeService.init(scene);

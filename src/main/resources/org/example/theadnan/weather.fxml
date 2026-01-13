@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefWidth="800" prefHeight="500"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.theadnan.WeatherController">
+<AnchorPane prefHeight="500" prefWidth="800" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="org.example.theadnan.WeatherController">
 
-    <VBox layoutX="60" layoutY="40" spacing="12" prefWidth="680" alignment="TOP_CENTER">
-        <Label text="Weather" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <VBox alignment="TOP_CENTER" layoutX="60" layoutY="40" prefWidth="680" spacing="12">
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Weather" />
 
-        <HBox spacing="8" alignment="CENTER">
-            <TextField fx:id="cityField" prefWidth="320"/>
-            <Button fx:id="fetchButton" text="Get Weather" onAction="#fetchWeather"/>
+        <HBox alignment="CENTER" spacing="8">
+            <TextField fx:id="cityField" prefWidth="320" />
+            <Button fx:id="fetchButton" onAction="#fetchWeather" text="Get Weather" />
         </HBox>
 
-        <VBox spacing="6" prefWidth="480" styleClass="card" alignment="CENTER">
-            <Label fx:id="locationLabel" text="Location" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-            <Label fx:id="tempLabel" text="-- °C" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
+        <VBox alignment="CENTER" prefWidth="480" spacing="6" styleClass="card">
+            <Label fx:id="locationLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Location" />
+            <Label fx:id="tempLabel" style="-fx-font-size: 36px; -fx-font-weight: bold;" text="-- °C" />
             <Label fx:id="condLabel" text="Condition" />
-            <Label fx:id="windLabel" text="Wind: -- km/h"/>
+            <Label fx:id="windLabel" text="Wind: -- km/h" />
         </VBox>
 
-        <Label fx:id="statusLabel" textFill="red"/>
+        <Label fx:id="statusLabel" textFill="red" />
 
-        <HBox spacing="10" alignment="CENTER">
-            <Button fx:id="backButton" text="Back" onAction="#goBack"/>
+        <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="backButton" onAction="#goBack" text="Back" />
         </HBox>
     </VBox>
+   <Label layoutX="648.0" layoutY="468.0" text="Developed by 2207001" />
 </AnchorPane>
